@@ -3,6 +3,8 @@
 #include <stdarg.h>
 #include <string.h>
 
+#include "common.h"
+
 #define CONSOLE_USART USART1
 #define USART_PRINTF_BUF_SIZE 128
 
@@ -117,9 +119,13 @@ int main(void)
 
     USART_Cmd(CONSOLE_USART, ENABLE);
 
-    USART_puts("\r\nDS138 DIGITAL OSCILLOSCOPE\r\n");
-    USART_puts("\r\nCopyright (C) Peter Ivanov, 2016\r\n");
-    USART_puts("\r\nLicense: GPLv2\r\n");
+    USART_puts("\r\nFirmware for DS138 Digital Oscilloscope version " TOSTR(VER_MAJOR) "." TOSTR(VER_MINOR) "\r\n");
+    USART_puts("Copyright (C) Peter Ivanov, 2016\r\n");
+    USART_puts("License: GPLv2\r\n");
+    USART_puts("Compiled on " __DATE__ " " __TIME__ "\r\n");
+#ifdef _DEBUG
+    USART_puts("*** DEBUG version ***\r\n");
+#endif
 
     while (1)
     {
