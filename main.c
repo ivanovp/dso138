@@ -116,10 +116,12 @@ int main(void)
 
     USART_Cmd(CONSOLE_USART, ENABLE);
 
+    USART_putc(13);
+    USART_putc(10);
     USART_putc('!');
-    USART_puts("\r\nUSART test!\r\n");
+    USART_puts("\r\nUSART_puts() test!\r\n");
     /* Output a message on Hyperterminal using printf function */
-    USART_printf("\n\rUSART printf test\n\r");
+    USART_printf("\n\rUSART_printf() test\n\r");
 
     while (1)
     {
@@ -154,8 +156,7 @@ PUTCHAR_PROTOTYPE
   */
 void assert_failed(uint8_t* file, uint32_t line)
 { 
-    /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    USART_printf("Wrong parameters value: file %s on line %d\r\n", file, line);
 
     /* Infinite loop */
     while (1)

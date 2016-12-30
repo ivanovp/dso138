@@ -1,7 +1,7 @@
 # Define the applications properties here:
 
 APP_NAME = dso138
-DEBUG = 0
+DEBUG = 1
 
 CROSS_COMPILE = arm-none-eabi-
 
@@ -32,7 +32,7 @@ CLFAGS    += -nostdlib
 CFLAGS    += -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -fno-move-loop-invariants -flto
 CFLAGS    += -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DHSE_VALUE=8000000UL -DSYSCLK_FREQ_72MHz=72000000
 ifeq ($(DEBUG),1)
-CFLAGS    += -D_DEBUG
+CFLAGS    += -D_DEBUG -DUSE_FULL_ASSERT
 endif
 CFLAGS_A  = $(CFLAGS) -D_ASSEMBLER_
 CXXFLAGS  = $(CFLAGS)
