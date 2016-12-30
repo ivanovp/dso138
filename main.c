@@ -117,8 +117,9 @@ int main(void)
 
     USART_Cmd(CONSOLE_USART, ENABLE);
 
-    USART_puts("\r\nUSART_puts() test!\r\n");
-    USART_printf("USART_printf() test\r\n");
+    USART_puts("\r\nDS138 DIGITAL OSCILLOSCOPE\r\n");
+    USART_puts("\r\nCopyright (C) Peter Ivanov, 2016\r\n");
+    USART_puts("\r\nLicense: GPLv2\r\n");
 
     while (1)
     {
