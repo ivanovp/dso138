@@ -17,11 +17,13 @@ INCLUDEPATH += -I./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/STM32F10x_StdPeriph_
 INCLUDEPATH += -I./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/CMSIS/CM3/CoreSupport
 INCLUDEPATH += -I./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x
 
-CFLAGS    = -mcpu=cortex-m3 -mthumb -mlittle-endian -mapcs-frame
-CFLAGS    += -msoft-float
+COMMONFLAGS = -mcpu=cortex-m3 -mthumb -mlittle-endian
+COMMONFLAGS += -msoft-float
+CFLAGS    = $(COMMONFLAGS)
 CFLAGS    += -ggdb3 $(INCLUDEPATH) -c
 ifeq ($(DEBUG),1)
-CFLAGS    += -Og # optimized debugging
+CFLAGS    += -O0
+#CFLAGS    += -Og # optimized debugging
 else
 CFLAGS    += -Os 
 endif
@@ -29,7 +31,10 @@ CFLAGS    += -Wall -Wextra
 CFLAGS    += -finline-functions -fomit-frame-pointer
 CFLAGS    += -fno-builtin -fno-exceptions
 CLFAGS    += -nostdlib
-CFLAGS    += -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -fno-move-loop-invariants -flto
+CFLAGS    += -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -fno-move-loop-invariants
+ifeq ($(DEBUG),0)
+CFLAGS    += -flto
+endif
 CFLAGS    += -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DHSE_VALUE=8000000UL -DSYSCLK_FREQ_72MHz=72000000
 ifeq ($(DEBUG),1)
 CFLAGS    += -D_DEBUG -DUSE_FULL_ASSERT
@@ -38,9 +43,9 @@ CFLAGS_A  = $(CFLAGS) -D_ASSEMBLER_
 CXXFLAGS  = $(CFLAGS)
 
 #LIB_PATH  = ./lib
-LDLIBS    = -lm -lc
+LDLIBS    = -lm
 
-LDFLAGS   = -nodefaultlibs -nostartfiles -T ./stm32_flash.ld -Wl,--gc-sections
+LDFLAGS   = $(COMMONFLAGS) -T ./stm32_flash.ld -Wl,--gc-sections
 LDFLAGS   += -specs=nano.specs
 #LDFLAGS   += -u _printf_float
 #LDFLAGS   += -specs=nosys.specs

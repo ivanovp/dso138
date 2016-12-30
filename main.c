@@ -1,6 +1,7 @@
 #include "stm32f10x.h"
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 
 #define CONSOLE_USART USART1
 #define USART_PRINTF_BUF_SIZE 128
@@ -73,7 +74,7 @@ UART_printf ("Number: %02i\r\n", number);
  */
 void USART_printf (const char *fmt, ...)
 {
-    static va_list valist;
+    va_list valist;
     char buf[USART_PRINTF_BUF_SIZE];
 
     va_start (valist, fmt);
@@ -116,12 +117,8 @@ int main(void)
 
     USART_Cmd(CONSOLE_USART, ENABLE);
 
-    USART_putc(13);
-    USART_putc(10);
-    USART_putc('!');
     USART_puts("\r\nUSART_puts() test!\r\n");
-    /* Output a message on Hyperterminal using printf function */
-    USART_printf("\n\rUSART_printf() test\n\r");
+    USART_printf("USART_printf() test\r\n");
 
     while (1)
     {

@@ -48,17 +48,110 @@ void NMI_Handler(void)
 {
 }
 
-/**
-  * @brief  This function handles Hard Fault exception.
-  * @param  None
-  * @retval None
-  */
-void HardFault_Handler(void)
+extern void USART_putc (unsigned char data);
+
+void _print (char * s)
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    while (*s)
+    {
+        USART_putc((uint8_t)*s++);
+    }
+}
+
+static const char  hexChars[] = "0123456789ABCDEF";
+
+void _printHex32 (uint32_t aNum)
+{
+    int  i = 8;
+
+    while (i-- > 0)
+    {
+        USART_putc(hexChars[(aNum >> 28) & 0xF]);
+        aNum <<= 4;
+    }
+}
+
+void _printHex16 (uint16_t aNum)
+{
+    int  i = 4;
+
+    while (i-- > 0)
+    {
+        USART_putc(hexChars[(aNum >> 12) & 0xF]);
+        aNum <<= 4;
+    }
+}
+
+void _printHex8 (uint8_t aNum)
+{
+    USART_putc(hexChars[(aNum >> 4) & 0xF]);
+    USART_putc(hexChars[aNum & 0xF]);
+}
+
+void HardFault_Handler (void)
+{
+    uint8_t   end = 0;
+    uint32_t  ccr = *((volatile uint32_t *)0xE000ED14);
+    uint32_t  cfsr = *((volatile uint32_t *)0xE000ED28);
+    uint32_t  hfsr = *((volatile uint32_t *)0xE000ED2C);
+    uint32_t  mmfar = *((volatile uint32_t *)0xE000ED34);
+    uint32_t  bfar = *((volatile uint32_t *)0xE000ED38);
+    uint32_t  afsr = *((volatile uint32_t *)0xE000ED3C);
+    uint32_t  dfsr = *((volatile uint32_t *)0xE000ED30);
+    uint16_t  ufsr = cfsr >> 16;
+    uint8_t   mmfsr = cfsr & 0xFF;
+    uint8_t   bfsr = (cfsr >> 8) & 0xFF;
+
+    _print("\r\n\r\nHardFault exception!\r\n");
+    _print("CCR:   0x");
+    _printHex32(ccr);
+
+    _print("\r\nCFSR:  0x");
+    _printHex32(cfsr);
+
+    _print("\r\nUFSR:  0x");
+    _printHex16(ufsr);
+    if (ufsr & 0x0100)
+    {
+        _print(" Unaligned access!");
+    }
+
+    if (ufsr & 0x0200)
+    {
+        _print(" Division by zero!");
+    }
+
+    _print("\r\nHFSR:  0x");
+    _printHex32(hfsr);
+
+    _print("\r\nMMFSR: 0x");
+    _printHex8(mmfsr);
+
+    _print("\r\nMMFAR: 0x");
+    _printHex32(mmfar);
+
+    _print("\r\nBFSR:  0x");
+    _printHex8(bfsr);
+
+    _print("\r\nBFAR:  0x");
+    _printHex32(bfar);
+
+    _print("\r\nAFSR:  0x");
+    _printHex32(afsr);
+
+    _print("\r\nDFSR:  0x");
+    _printHex32(dfsr);
+
+    _print("\r\n");
+
+    if (CoreDebug->DHCSR & 1)
+    {
+//        __breakpoint (0);
+    }
+
+    while (!end)
+    {
+    }
 }
 
 /**
