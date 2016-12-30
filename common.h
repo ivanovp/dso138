@@ -1,11 +1,11 @@
 /**
  * @file        common.h
  * @brief       Common defines
- * @author      (C) Peter Ivanov, 2007
+ * @author      (C) Peter Ivanov, 2007-2017
  * 
  * Created:     2007-05-19 11:29:32
  * Last modify: 2014-02-15 08:08:14 ivanovp {Time-stamp}
- * Licence:     GPL
+ * Licence:     GPLv2
  */
 #ifndef __INCLUDE_COMMON_H
 #define __INCLUDE_COMMON_H

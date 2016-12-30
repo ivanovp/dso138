@@ -87,6 +87,7 @@ SRC_C += ./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/STM32F10x_StdPeriph_Driver/s
 #SRC_C += ./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_bkp.c
 SRC_C += ./stm32f10x_it.c
 SRC_C += ./main.c
+SRC_C += ./usart.c
 SRC_C += ./syscalls.c
 SRC_S = ./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/gcc_ride7/startup_stm32f10x_md.s
 OBJ_CPP = $(patsubst %.cpp, %.o, $(SRC_CPP))

@@ -4,6 +4,7 @@ CONFIG -= qt
 
 include(other.pro)
 SOURCES += ./main.c \
+./usart.c \
 ./stm32_flash.ld \
 ./stm32f10x_it.c \
 ./syscalls.c \
@@ -35,6 +36,7 @@ SOURCES += ./main.c \
 ./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_wwdg.c
 
 HEADERS += ./common.h \
+./usart.h \
 ./stm32f10x_conf.h \
 ./stm32f10x_it.h \
 ./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/CMSIS/CM3/CoreSupport/core_cm3.h \
