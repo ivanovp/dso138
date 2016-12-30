@@ -119,7 +119,7 @@ int main(void)
     USART_putc('!');
     USART_puts("\r\nUSART test!\r\n");
     /* Output a message on Hyperterminal using printf function */
-    //USART_printf("\n\rUSART printf test\n\r");
+    USART_printf("\n\rUSART printf test\n\r");
 
     while (1)
     {

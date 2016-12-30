@@ -1,6 +1,7 @@
 # Define the applications properties here:
 
 APP_NAME = dso138
+DEBUG = 0
 
 CROSS_COMPILE = arm-none-eabi-
 
@@ -18,23 +19,33 @@ INCLUDE   += -I./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/CMSIS/CM3/DeviceSuppor
 
 CFLAGS    = -mcpu=cortex-m3 -mthumb -mlittle-endian -mapcs-frame
 CFLAGS    += -msoft-float
-CFLAGS    += -ggdb3 -Os $(INCLUDE) -c
-#CFLAGS    += -Og # optimized debugging
+CFLAGS    += -ggdb3 $(INCLUDE) -c
+ifeq ($(DEBUG),1)
+CFLAGS    += -Og # optimized debugging
+else
+CFLAGS    += -Os 
+endif
 CFLAGS    += -Wall -Wextra
 CFLAGS    += -finline-functions -fomit-frame-pointer
 CFLAGS    += -fno-builtin -fno-exceptions
 CLFAGS    += -nostdlib
-CFLAGS    += -specs=nosys.specs
+#CFLAGS    += --specs=nano.specs
+#CFLAGS    += -specs=nosys.specs
 CFLAGS    += -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -fno-move-loop-invariants -flto
-CFLAGS    += -D_DEBUG -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER
+CFLAGS    += -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DHSE_VALUE=8000000UL -DSYSCLK_FREQ_72MHz=72000000
+ifeq ($(DEBUG),1)
+CFLAGS    += -D_DEBUG
+endif
 CFLAGS_A  = $(CFLAGS) -D_ASSEMBLER_
 CXXFLAGS  = $(CFLAGS)
 
 #LIB_PATH  = ./lib
-LDLIBS    = -lm
+LDLIBS    = -lm -lc
 
 LDFLAGS   = -nodefaultlibs -nostartfiles -T ./stm32_flash.ld -Wl,--gc-sections
-LDFLAGS   += -specs nosys.specs
+LDFLAGS   += -specs=nano.specs
+#LDFLAGS   += -u _printf_float
+#LDFLAGS   += -specs=nosys.specs
 #LDFLAGS   += -L$(LIB_PATH)
 LDFLAGS   += $(LDLIBS) -o $(APP_NAME).elf
 
@@ -45,6 +56,7 @@ LDFLAGS   += $(LDLIBS) -o $(APP_NAME).elf
 #SRC_CPP = $(foreach dir, $(SOURCE), $(wildcard $(dir)/*.cpp))
 #SRC_C   = $(foreach dir, $(SOURCE), $(wildcard $(dir)/*.c))
 #SRC_S   = $(foreach dir, $(SOURCE), $(wildcard $(dir)/*.s))
+
 SRC_C = ./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.c
 SRC_C += ./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/CMSIS/CM3/CoreSupport/core_cm3.c
 #SRC_C += ./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.c
