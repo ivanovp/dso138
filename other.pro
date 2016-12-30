@@ -1,0 +1,6 @@
+DEFINES += STM32F10X_MD=1
+DEFINES += USE_STDPERIPH_DRIVER=1
+
+INCLUDEPATH += ./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/STM32F10x_StdPeriph_Driver/inc
+INCLUDEPATH += ./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/CMSIS/CM3/CoreSupport
+INCLUDEPATH += ./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x
