@@ -12,14 +12,14 @@ SIZE      = $(CROSS_COMPILE)size
 
 SOURCE    = .
 
-INCLUDE   = -I.
-INCLUDE   += -I./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/STM32F10x_StdPeriph_Driver/inc
-INCLUDE   += -I./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/CMSIS/CM3/CoreSupport
-INCLUDE   += -I./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x
+INCLUDEPATH = -I.
+INCLUDEPATH += -I./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/STM32F10x_StdPeriph_Driver/inc
+INCLUDEPATH += -I./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/CMSIS/CM3/CoreSupport
+INCLUDEPATH += -I./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x
 
 CFLAGS    = -mcpu=cortex-m3 -mthumb -mlittle-endian -mapcs-frame
 CFLAGS    += -msoft-float
-CFLAGS    += -ggdb3 $(INCLUDE) -c
+CFLAGS    += -ggdb3 $(INCLUDEPATH) -c
 ifeq ($(DEBUG),1)
 CFLAGS    += -Og # optimized debugging
 else
@@ -29,8 +29,6 @@ CFLAGS    += -Wall -Wextra
 CFLAGS    += -finline-functions -fomit-frame-pointer
 CFLAGS    += -fno-builtin -fno-exceptions
 CLFAGS    += -nostdlib
-#CFLAGS    += --specs=nano.specs
-#CFLAGS    += -specs=nosys.specs
 CFLAGS    += -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -fno-move-loop-invariants -flto
 CFLAGS    += -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DHSE_VALUE=8000000UL -DSYSCLK_FREQ_72MHz=72000000
 ifeq ($(DEBUG),1)
@@ -83,7 +81,6 @@ SRC_C += ./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/STM32F10x_StdPeriph_Driver/s
 #SRC_C += ./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_dac.c
 #SRC_C += ./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_bkp.c
 SRC_C += ./stm32f10x_it.c
-#SRC_C += ./STM32F10x_StdPeriph_Lib_V3.5.0/Project/STM32F10x_StdPeriph_Template/system_stm32f10x.c
 SRC_C += ./main.c
 SRC_C += ./syscalls.c
 SRC_S = ./STM32F10x_StdPeriph_Lib_V3.5.0/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/gcc_ride7/startup_stm32f10x_md.s
