@@ -48,6 +48,7 @@ void NMI_Handler(void)
 {
 }
 
+#ifdef _DEBUG
 extern void USART_putc (unsigned char data);
 
 void _print (char * s)
@@ -153,6 +154,15 @@ void HardFault_Handler (void)
     {
     }
 }
+#else
+void HardFault_Handler(void)
+{
+  /* Go to infinite loop when Memory Manage exception occurs */
+  while (1)
+  {
+  }
+}
+#endif
 
 /**
   * @brief  This function handles Memory Manage exception.
